@@ -1,0 +1,89 @@
+#container {width:100%;height:100vh;margin: 0;}
+#pickerInput{
+    /*position: fixed;*/
+    /*top: 20px;*/
+    /*width: 250px;*/
+    /*height: 30px;*/
+}
+html,body{
+    width: 100%;
+    height: 1vh;
+    margin: 0;
+    padding: 0;
+}
+.input_wrapper{
+    position: fixed;
+    top: 2%;
+    width: 90%;
+    left: 5%;
+    right: 5%;
+    margin: 0 auto;
+    background:white;
+    border:.1rem solid #dddddd;
+    box-shadow: 0 0 5px #666666;
+    border-radius: .2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.input_search_result{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    margin: 0 auto;
+    padding-top: .6rem;
+    padding-bottom: .6rem;
+    /*border-bottom:1px solid #9d9d9d ;*/
+    /*border-left:1px solid #9d9d9d ;*/
+    /*border-right:1px solid #9d9d9d ;*/
+}
+
+.input_search_result:active{
+    background: #b4e2ff;
+}
+
+
+.input_search_title{
+    margin-left: 1.2rem;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.input_search_result_position{
+    color: #9d9d9d;
+    margin-right:1.8rem;
+}
+
+.input_wrapper:hover{
+    box-shadow: 0 0 5px #2986de;
+}
+
+.icon{
+    width: 1.68rem;
+    height: 1.68rem;
+    margin-left: 1.2rem;
+    /*margin-top: .6rem;*/
+}
+
+input{
+    background: white;
+    border: none;
+    outline: none;
+    width: 82%;
+    padding: .4rem .2rem;
+    font-size: 18px;
+}
+
+#sust_market_point:hover{
+    color: blue;
+}
+#bottom_logo{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 96px;
+    height: 21.6px;
+}

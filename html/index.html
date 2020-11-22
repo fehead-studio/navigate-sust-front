@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>科大导航</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <link rel="icon" href="">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <!--高德地图-->
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.5&key=2d7dc38be6284b725c8dec157b4d5b33"></script>
+    <!--引入UI组件库（1.0版本） -->
+    <script src="http://webapi.amap.com/ui/1.0/main.js"></script>
+
+    <script src="../js/Global.js" type="text/javascript"></script>
+    <script src="../js/init.js" type="text/javascript"></script>
+    <script src="../js/baseFun.js" type="text/javascript"></script>
+    <script src="../js/marketHub.js" type="text/javascript"></script>
+    <script src="../js/request.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var grand1=[108.971477,34.379486];
+        var grand2=[108.981793,34.382421];
+        var grand3=[108.981611,34.374297];
+        var grand4=[108.973011,34.375603];
+        // 108.972931,34.376967
+        // 108.971509,34.377006
+        $(function () {
+
+            // 自定义点的初始化
+            Ajax.getPointList();
+
+            compomentInit();
+            //地图初始化
+            mapInit();
+            //学校边界初始化
+            sustMainAreaRangeLineInit();
+            sustLifeAreaRangeLineInit();
+            //学校面绘制
+            sustAllAreaPolygonInit();
+            //镂空
+            sustHollow();
+            //插件初始化
+            pluginInit();
+            //坐标搜索初始化
+            // serchPointInit();
+
+
+            var infoWindow = new AMap.InfoWindow({ //创建信息窗体
+                isCustom: true,  //使用自定义窗体
+                content:'<div>信息窗体</div>', //信息窗体的内容可以是任意html片段
+                offset: new AMap.Pixel(16, -45)
+            });
+            var onMarkerClick  =  function(e) {
+                infoWindow.open(map, e.target.getPosition());//打开信息窗体
+                //e.target就是被点击的Marker
+            };
+
+
+            // var marker = makePoint(108.9749389887,34.3780346069);
+
+            // marker.on('click',onMarkerClick);
+
+
+            // alert(getContentHtml("餐厅"));
+
+            // makeContentPoint(108.9749389887,34.3780346069,getContentHtml("医院","小萨达阿斯顿爱上大声点爱上医院"))
+
+            // makePoint()
+
+
+
+            // setInterval(function () {
+            //     map.getZoom();
+            //     console.log();
+            // },500)
+
+            $("#pickerInput").keyup(function () {
+                let buffer = $(this).val();
+                console.log(buffer);
+                // return;
+                searchSuggest(buffer);
+
+                // poiPicker.clearSuggest();
+            });
+
+            /*$("#pickerInput").change(function () {
+
+                let name = $(this).val();
+
+                // 查询数据库获取地标详细信息：
+                // let poi = searchByPointName(name);
+                // searchByPointName(name);
+
+            });*/
+
+        })
+    </script>
+</head>
+<body>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">
+                    联系我们
+                </h4>
+            </div>
+            <div class="modal-body">
+                没找到你想找的地点？或发现bug？请联系我们
+                <br>
+                联系邮箱：detectiveygn@163.com<br>
+            </div>
+            <div class="modal-footer">
+                klsdfjksdl
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="container"></div>
+<!--<div style="">-->
+<!--    <div style="margin: 0 auto;width: 40px;height: 40px;overflow: hidden">-->
+<!--        <img src="../image/icon-normal-big.png">-->
+<!--    </div>-->
+<!--    <span>天安门12312312</span>-->
+<!--</div>-->
+<!--<div style="width: 40px;height: 40px;overflow: hidden;position: fixed;top:300px;left: 200px">-->
+<!--    <img style="position: relative;left:-40px" src="../image/icon-normal-big.png">-->
+</div>
+
+<div>
+    <div class="input_wrapper">
+        <div style="display: flex;flex-direction: row;align-items: center;">
+            <svg t="1566900101362" class="icon" viewBox="0 0 1059 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2134" width="200" height="200"><path d="M463.65500237 773.18500475a352.19666903 352.19666903 0 1 1 352.19666903-352.19666904 352.57094797 352.57094797 0 0 1-352.19666904 352.19666904z m0-641.95110188a289.81681265 289.81681265 0 1 0 289.81681265 289.81681266A290.12871176 290.12871176 0 0 0 463.65500237 131.23390287z" p-id="2135" fill="#515151"></path><path d="M952.6506972 912.47922422a31.18992819 31.18992819 0 0 1-21.77057017-8.85793963L679.61406566 657.96941048a31.18992819 31.18992819 0 0 1 43.66589914-44.60159729l251.26606138 245.65187411a31.18992819 31.18992819 0 0 1-21.83294917 53.52191674z" p-id="2136" fill="#515151"></path></svg>
+            <input id="pickerInput" type="text" maxlength="25">
+        </div>
+        <div id="search_suggest_container">
+         <!--    <div class="input_search_result"style="top: 14%;">
+                <div class="input_search_title">
+                    <div class="glyphicon glyphicon-play"></div>
+                    <div>校易班发展中心</div>
+                </div>
+                <div class="input_search_result_position">四号教学楼</div>
+             </div>-->
+        </div>
+    </div>
+    <img src="../image/FeHead_Logo.png" id="bottom_logo">
+</div>
+
+
+</body>
+</html>
