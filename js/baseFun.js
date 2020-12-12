@@ -204,18 +204,6 @@ function generateSearchSuggest(poi) {
     if (poi.length === 0) resultHtml+=feedbackContentHtml()
     $("#search_suggest_container").html(resultHtml);
 
-    /*console.log("112233")
-    if (poi.length === 0){
-        console.log("poi.length === 0")
-        $("#search_suggest_container").html("<div class=\"input_search_result\"style=\"top: 10%;\">\n" +
-            "                <div class=\"input_search_title\">\n" +
-            "                    <div class=\"glyphicon glyphicon-play\"></div>\n" +
-            "                    <div>校易班发展中心</div>\n" +
-            "                </div>\n" +
-            "                <div class=\"input_search_result_position\">四号教学楼</div>\n" +
-            "            </div>");
-    }*/
-
     // 初始化搜索结果点击事件
     initSearchResultOnclick(poi);
 
@@ -228,10 +216,11 @@ function generateSearchSuggest(poi) {
  * @returns {html}
  */
 function searchContentHtml(id,top,title,address) {
-    let template = `<div id="search_result_{0}" class="input_search_result"style="top: {1}%;">
-        <div class="input_search_title">
+    let template = `
+    <div id="search_result_{0}" class="input_search_result"style="top: {1}%;">
+        <div class="input_search_title" >
             <div class="glyphicon glyphicon-play"></div>
-            <div class="input_search_result_name">&nbsp;{2}</div>
+            <div class="input_search_result_name">&nbsp{2}</div>
         </div>
         <div class="input_search_result_position">{3}</div>
     </div>`;
@@ -239,6 +228,10 @@ function searchContentHtml(id,top,title,address) {
     return content;
 }
 
+/**
+ * 一个地点都未搜索到时展示
+ * @returns {void|string|never}
+ */
 function feedbackContentHtml(){
     const template = `
     <div class="input_search_result"style="top: 10%;">
@@ -251,6 +244,8 @@ function feedbackContentHtml(){
     const content = String.format(template);
     return content
 }
+
+
 /**
  * 搜索结果点击触发
  * @param poi
@@ -268,6 +263,7 @@ function initSearchResultOnclick(poi) {
                 excuSearchResult(poi[i]);
             }
         }
+        $("#search_suggest_container").html("");
     });
 
 }
